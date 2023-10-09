@@ -4,6 +4,16 @@
 #ifndef _LINK_LAYER_H_
 #define _LINK_LAYER_H_
 
+#include <fcntl.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <termios.h>
+#include <unistd.h>
+#include "flags.h"
+
 typedef enum
 {
     LlTx,
@@ -18,6 +28,10 @@ typedef struct
     int nRetransmissions;
     int timeout;
 } LinkLayer;
+
+
+//Baudrate
+#define BAUDRATE B38400
 
 // SIZE of maximum acceptable payload.
 // Maximum number of bytes that application layer should send to link layer
