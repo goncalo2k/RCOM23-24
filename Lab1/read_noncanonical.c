@@ -68,8 +68,8 @@ int main(int argc, char *argv[])
 
     // Set input mode (non-canonical, no echo,...)
     newtio.c_lflag = 0;
-    newtio.c_cc[VTIME] = 0; // Inter-character timer unused
-    newtio.c_cc[VMIN] = 5;  // Blocking read until 5 chars received
+    newtio.c_cc[VTIME] = 0; // Inter-character timer unused - Neste caso não se espera tempo nenhum por outro byte
+    newtio.c_cc[VMIN] = 0;  // Blocking read until 5 chars received - Não queremos ficar em blocking
 
     // VTIME e VMIN should be changed in order to protect with a
     // timeout the reception of the following character(s)
