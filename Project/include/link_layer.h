@@ -29,6 +29,12 @@ typedef struct
     int timeout;
 } LinkLayer;
 
+//Fd
+int fd;
+
+//Termios Settings
+struct termios oldtio;
+struct termios newtio;
 
 //Baudrate
 #define BAUDRATE B38400
@@ -58,4 +64,7 @@ int llread(unsigned char *packet);
 // Return "1" on success or "-1" on error.
 int llclose(int showStatistics);
 
+int byteStuffing(unsigned char *buf, int bufSize);
+
+int byteDestuffing(unsigned char *buf, int bufSize);
 #endif // _LINK_LAYER_H_

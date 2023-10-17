@@ -1,6 +1,10 @@
 INSTRUCTIONS FOR SERIAL PORT PROTOCOL
 =====================================
 
+
+Group 6
+
+
 This folder contains the base code of the serial port protocol.
 
 Project Structure

@@ -8,53 +8,18 @@
 ////////////////////////////////////////////////
 // LLOPEN
 ////////////////////////////////////////////////
+
+
+
+
 int llopen(LinkLayer connectionParameters)
 {
-    // 
-
-    return 1;
-}
-
-////////////////////////////////////////////////
-// LLWRITE
-////////////////////////////////////////////////
-int llwrite(const unsigned char *buf, int bufSize)
-{
-    // TODO
-
-    return 0;
-}
-
-////////////////////////////////////////////////
-// LLREAD
-////////////////////////////////////////////////
-int llread(unsigned char *packet)
-{
-    // TODO
-
-    return 0;
-}
-
-////////////////////////////////////////////////
-// LLCLOSE
-////////////////////////////////////////////////
-int llclose(int showStatistics)
-{
-    // TODO
-
-    return 1;
-}
-
-int connect(const char *serialPort) {
-    int fd = open(serialPort, O_RDWR | O_NOCTTY);
+    fd = open(connectionParameters.serialPort, O_RDWR | O_NOCTTY);
     if (fd < 0)
     {
-        perror(serialPort);
+        perror(connectionParameters.serialPort);
         exit(-1);
     }
-
-    struct termios oldtio;
-    struct termios newtio;
 
     // Save current port settings
     if (tcgetattr(fd, &oldtio) == -1)
@@ -94,5 +59,91 @@ int connect(const char *serialPort) {
 
     //printf("New termios structure set\n");
 
-    return fd;
+    return 0;
+}
+
+////////////////////////////////////////////////
+// LLWRITE
+////////////////////////////////////////////////
+int llwrite(const unsigned char *buf, int bufSize)
+{
+    int bytes = write(fd, buf, bufSize);
+    printf("%d bytes written\n", bytes);
+
+    // Wait until all bytes have been written to the serial port
+    sleep(1);
+
+    return bufSize;
+}
+
+////////////////////////////////////////////////
+// LLREAD
+////////////////////////////////////////////////
+int llread(unsigned char *packet)
+{
+    
+    return 0;
+}
+
+////////////////////////////////////////////////
+// LLCLOSE
+////////////////////////////////////////////////
+int llclose(int showStatistics)
+{
+   // Restore the old port settings
+    if (tcsetattr(fd, TCSANOW, &oldtio) == -1)
+    {
+        perror("tcsetattr");
+        exit(-1);
+    }
+
+    close(fd);
+
+    return 0;
+}
+
+
+int byteStuffing(unsigned char *buf, int bufSize) {
+    if (buf == NULL || bufSize < 1) {
+        printf("Invalid buffer\n");
+        return -1;
+    }
+
+    //Init copy buffer
+    unsigned char *copyBuf[bufSize];
+
+    for (int i = 0; i < bufSize; i++) {
+        if (buf[i] == FLAG) {
+            copyBuf[i] = ESC;
+            copyBuf[i+1] = FLAG ^ 0x20;
+        } else if (buf[i] == ESC) {
+            continue;
+        } else {
+            copyBuf[i] = buf[i];
+        }
+    }
+    return 0;
+}
+
+int byteDestuffing(unsigned char *buf, int bufSize) {
+    if (buf == NULL || bufSize < 1) {
+        printf("Invalid buffer\n");
+        return -1;
+    }
+
+    //Init copy buffer
+    unsigned char *copyBuf[bufSize];
+
+    for (int i = 0; i < bufSize; i++) {
+        if (buf[i] == FLAG) {
+            copyBuf[i] = ESC;
+            copyBuf[i+1] = FLAG ^ 0x20;
+        } else if (buf[i] == ESC) {
+            continue;
+        } else {
+            copyBuf[i] = buf[i];
+        }
+    }
+
+    return 0;
 }
