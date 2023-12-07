@@ -25,3 +25,6 @@ $(BIN)/main: main.c $(SRC)/*.c
 clean:
 	rm -f $(BIN)/main
 
+.PHONY: run
+run: $(BIN)/main
+	./$(BIN)/main "ftp://ftp.up.pt/pub/kodi/timestamp.txt"

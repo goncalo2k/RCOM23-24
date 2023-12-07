@@ -1,4 +1,5 @@
 #include "url.h"
+#include "server.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -18,10 +19,14 @@ int main(int argc, char *argv[]) {
     }
 
     printf("Username: %s\n", username);
-    printf("Password: %s\n", username);
-    printf("Host: %s\n", username);
-    printf("Port: %s\n", username);
-    printf("Path: %s\n", username);
+    printf("Password: %s\n", password);
+    printf("Host: %s\n", host);
+    printf("Port: %s\n", port);
+    printf("Path: %s\n", path);
     
+    if (connector(host, port) < 0)
+        return -1;
+
+
     return 0;
 }
