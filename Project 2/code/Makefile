@@ -22,6 +22,10 @@ clean:
 	rm -f $(BIN)/main
 	rm -f download.*
 
-.PHONY: run
-run: $(BIN)/main
+.PHONY: run1
+run1: $(BIN)/main
 	./$(BIN)/main "ftp://ftp.up.pt/pub/kodi/timestamp.txt"
+
+.PHONY: run2
+run2: $(BIN)/main
+	./$(BIN)/main "ftp://ftp.up.pt/pub/kodi/robots.txt"
