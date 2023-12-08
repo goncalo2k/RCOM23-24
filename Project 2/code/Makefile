@@ -1,13 +1,9 @@
 # -*- Makefile -*-
 # Makefile to build the project
-# NOTE: This file must not be changed.
 
 # Parameters
 CC = gcc
 
-
-# _DEBUG is used to include internal logging of errors and general information. Levels go from 1 to 3, highest to lowest priority respectively
-# _PRINT_PACKET_DATA is used to print the packet data that is received by RX
 CFLAGS = -Wall -g
 
 SRC = src/

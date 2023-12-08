@@ -117,7 +117,7 @@ int enter_passive_mode(int pfd, char *host, char *port) {
 int transfer_file(int fd, const char *path) {
     char buf[512];
     int len;
-    int curr_code ;
+    int curr_code;
 
     snprintf(buf, 512, "retr %s\n%n", path, &len);
     if (send(fd, buf, len, 0) < 0) {
@@ -130,6 +130,25 @@ int transfer_file(int fd, const char *path) {
         printf("Could not transfer file\n");
         exit(-1);
     }
+    return 0;
+}
+
+int recieve_file(int fd, char* local_file_name) {
+    int ofd = creat(local_file_name, 0744);
+    int buf[1024];
+    int bread;
+
+    while ((bread = recv(fd, buf, 1024, 0)) > 0) {
+        int bwritten = write(ofd, buf, bread);
+
+        proccess += bwritten;
+
+        printf("Written %lu bytes (%lf%%) to file\n", bwritten, (double)(proccess * 100.0 / fsize));
+        printf("%.*s\n", (int)bread, buf);
+    }
+
+    close(ofd);
+
     return 0;
 }
 

@@ -9,8 +9,8 @@
 #include <errno.h>
 #include <stdlib.h>
 #include <arpa/inet.h>
+#include <fcntl.h>
 
-#define SV_READY4AUTH           220
 #define WAITING_FOR_PASSIVE     331
 #define SUCCESSFUL_LOGIN        230
 #define PASSIVE_MODE            227
@@ -29,6 +29,8 @@ int fetch_code(int fd);
 int enter_passive_mode(int fd, char *host, char *port);
 
 int transfer_file(int fd, const char *path);
+
+int recieve_file(int fd, char* local_file_name);
 
 int login(int fd, const char *username, const char *password);
 

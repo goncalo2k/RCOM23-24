@@ -14,6 +14,7 @@ int main(int argc, char *argv[]) {
     char username[256] = "anonymous", password[256] = "",
     host[256] = "", port[256] = "21", path[256] = "",
     pass_host[INET_ADDRSTRLEN], pass_port[6];
+    char fname[256];
 
     if (url_parser(argv[1], username, password, host, port, path)) {
         printf("Parsing error. Usage: ./download ftp://[<user>:<password>@]<host>/<url-path>\n");
@@ -46,6 +47,10 @@ int main(int argc, char *argv[]) {
     if(transfer_file(cfd, path) < 0)
         exit(-1);
 
+    strrchr(path, '/') + 1;
+    
+    if (recieve_file(pfd, path) < 0)
+        exit(-1);
     close(cfd);
     close(pfd);
 
