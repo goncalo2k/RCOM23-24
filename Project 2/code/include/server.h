@@ -3,12 +3,33 @@
 
 #include <sys/socket.h>
 #include <netdb.h>
+#include <unistd.h>
 #include <string.h>
 #include <stdio.h>
 #include <errno.h>
+#include <stdlib.h>
+#include <arpa/inet.h>
+
+#define SV_READY4AUTH           220
+#define WAITING_FOR_PASSIVE     331
+#define SUCCESSFUL_LOGIN        230
+#define PASSIVE_MODE            227
+#define TRANSFER_READY          150
+#define TRANSFER_FINISHED       226
+#define SV_GOODBYE              221
 
 int connector(char *host, char *port);
 
 int fetch_address (char *host, char *port, struct addrinfo **res);
+
+int recdata(int fd, char *buf, int len);
+
+int fetch_code(int fd);
+
+int enter_passive_mode(int fd, char *host, char *port);
+
+int transfer_file(int fd, const char *path);
+
+int login(int fd, const char *username, const char *password);
 
 #endif
