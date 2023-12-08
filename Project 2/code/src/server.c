@@ -62,7 +62,7 @@ int recdata(int fd, char *buf, int len) {
 
     if (errno != EAGAIN && errno != EWOULDBLOCK) {
         printf("%s\n", strerror(errno));
-        exit(-1);
+        return -1;
     }
 
     buf[total_bytes_read] = '\0';
@@ -77,7 +77,7 @@ int fetch_code(int fd) {
     int curr_code = -1;
 
     if (recdata(fd, buf, 2048) < 0)
-        exit(-1);
+        return -1;
 
     sscanf(buf, "%d", &curr_code);
 
@@ -95,7 +95,7 @@ int enter_passive_mode(int pfd, char *host, char *port) {
     char cmnd[] = "pasv\n", buf[256];
     if (send(pfd, cmnd, sizeof(cmnd) - 1, 0) < 0) {
         printf("Couldnt send passive command: %s\n", strerror(errno));
-        exit (-1);
+        return -1;
     }
 
     recdata(pfd, buf, 256);
@@ -105,7 +105,7 @@ int enter_passive_mode(int pfd, char *host, char *port) {
            &h3, &h4, &p1, &p2);
     if (curr_code != PASSIVE_MODE) {
         printf("Could not enter passive mode\n");
-        exit(-1);
+        return -1;
     }
 
     sprintf(host, "%d.%d.%d.%d", h1, h2, h3, h4);
@@ -122,13 +122,13 @@ int transfer_file(int fd, const char *path) {
     snprintf(buf, 512, "retr %s\n%n", path, &len);
     if (send(fd, buf, len, 0) < 0) {
         printf("Couldnt send 'retr' command: %s\n", strerror(errno));
-        exit(-1);
+        return -1;
     }
 
     curr_code = fetch_code(fd);
     if (curr_code != TRANSFER_READY && curr_code != TRANSFER_FINISHED) {
         printf("Could not transfer file\n");
-        exit(-1);
+        return -1;
     }
     return 0;
 }
@@ -188,20 +188,20 @@ int login(int fd, const char *username, const char *password) {
         return 0;
     } else if (curr_code != WAITING_FOR_PASSIVE) {
         printf("Couldnt login as '%s'\n", username);
-        exit(-1);
+        return -1;
     }
 
     snprintf(buf, 512, "pass %s\n%n", password, &len);
     if (send(fd, buf, len, 0) < 0) {
         printf("Error sending passive command: %s\n", strerror(errno));
-        exit(-1);
+        return -1;
     }
 
     curr_code = fetch_code(fd);
     if (curr_code != SUCCESSFUL_LOGIN) {
         printf("Couldnt login as '%s' using password '%s'\n",
               username, password);
-        exit(-1);
+        return -1;
     }
 
     printf("Login successful!\n");
