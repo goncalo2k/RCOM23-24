@@ -29,3 +29,7 @@ run1: $(BIN)/main
 .PHONY: run2
 run2: $(BIN)/main
 	./$(BIN)/main "ftp://ftp.up.pt/pub/kodi/robots.txt"
+
+.PHONY: run3
+run3: $(BIN)/main
+	./$(BIN)/main "ftp://ftp.up.pt/pub/kodi/sparklefeeds/sparkleupdate_nightly.xml"
