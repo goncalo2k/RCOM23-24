@@ -20,6 +20,7 @@ $(BIN)/main: main.c $(SRC)/*.c
 .PHONY: clean
 clean:
 	rm -f $(BIN)/main
+	rm -f download.*
 
 .PHONY: run
 run: $(BIN)/main

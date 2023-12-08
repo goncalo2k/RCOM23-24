@@ -134,17 +134,31 @@ int transfer_file(int fd, const char *path) {
 }
 
 int recieve_file(int fd, char* local_file_name) {
-    int ofd = creat(local_file_name, 0744);
-    int buf[1024];
-    int bread;
+    int ofd = open(local_file_name, O_WRONLY | O_CREAT | O_TRUNC, 0744);
+    
+    if (ofd == -1) {
+        perror("Error opening or creating file");
+        return -1;
+    }
 
-    while ((bread = recv(fd, buf, 1024, 0)) > 0) {
-        int bwritten = write(ofd, buf, bread);
+    char buf[1024];
+    ssize_t bread, bwritten;
 
-        proccess += bwritten;
+    while ((bread = recv(fd, buf, sizeof(buf), 0)) > 0) {
+        bwritten = write(ofd, buf, bread);
 
-        printf("Written %lu bytes (%lf%%) to file\n", bwritten, (double)(proccess * 100.0 / fsize));
+        if (bwritten == -1) {
+            perror("Error writing to file");
+            close(ofd);
+            return -1;
+        }
+
+        // Assuming 'fsize' is a known variable representing the total file size
+        // and 'proccess' is a known variable representing the processed bytes
+        printf("Written %zd bytes (%lf%%) to file\n", bwritten, (double)(proccess * 100.0 / fsize));
         printf("%.*s\n", (int)bread, buf);
+        
+        proccess += bwritten;
     }
 
     close(ofd);
