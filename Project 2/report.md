@@ -34,13 +34,13 @@ Note that, in this experience, the workbench used was workbench 4.
 2. Configure Tux**Y**3 and Tux**Y**4, by performing the following commands:
     - Tux**Y**3
     <br>
-    <code> ifconfig eth0 up
-    <br> ifconfig eth0 172.16.**Y**0.**1**/24
+    <code>$ ifconfig eth0 up
+    <br>$ ifconfig eth0 172.16.**Y**0.**1**/24
     </code> 
     - Tux**Y**4
     <br>
-    <code> ifconfig eth0 up
-    <br> ifconfig eth0 172.16.**Y**0.**254**/24
+    <code>$ ifconfig eth0 up
+    <br>$ ifconfig eth0 172.16.**Y**0.**254**/24
     </code> 
 3. Now we can check both the IP and MAC adresses of both computers:
     - TuxY3:
@@ -51,48 +51,67 @@ Note that, in this experience, the workbench used was workbench 4.
         - MAC Address: 00:21:5a:5a:7b:ea
 
 4. We now can test the connectivity between the computers by pinging each other (TuxY3 pings TuxY4 and vice-versa).
-
+    
+    TuxY3:
+    
     <code>
-    TuxY3: ping 172.16.**Y**0.254 -c 10
+    $ ping 172.16.**Y**0.254 -c 10
     </code>
 
     ![Ping from Tux**Y**4 to Tux**Y**3](resources/exp1/pingtux4.png)
     <br>
+
+    TuxY4:
+
     <code>
-    TuxY4: ping 172.16.**Y**0.1 -c 10
+    $ ping 172.16.**Y**0.1 -c 10
     </code>
 
     ![Ping from Tux**Y**4 to Tux**Y**3](resources/exp1/pingtux3.png)
         <br>
         The connection is working in case all the packets are correctly recieved.
         <br>
+        
 5. Now, we can check the forwarding and the ARP tables. We're doing it on Tux**Y**3.
     <br>
-    <code> in: route -n
-    <br>out: ![Ping from Tux**Y**4 to Tux**Y**3](resources/exp1/route_table.png)
-    </code>
+    In:
+
+    <code>$ route -n</code>
+
+    out: ![Ping from Tux**Y**4 to Tux**Y**3](resources/exp1/route_table.png)
+
     <br>
-    <code> in: arp -a
-    <br>out: ? (172.16.40.254) at 00:21:5a:5a:7b:ea [ether] on eht0
+    In:
+
+    <code>$ arp -a</code>
+
+    out:
+
+    <code> ? (172.16.40.254) at 00:21:5a:5a:7b:ea [ether] on eht0
     </code>
 6. We are now deleting the arp table entries in Tux**Y**3.
-    
+    In:
+
     <code>
-    arp -d 172.16.40.254
+    $ arp -d 172.16.40.254
     </code>
 
     To test if the deletion occurred correctly, we can perform
-    <code>
-    in: arp -a
-    <br>
+    
+    In:
+
+    <code>$ arp -a</code>
+    
     out: 
-    </code>
+    
+    No entries on the table
+    
 7. Now, we can start Wireshark in Tux**Y**3.eth0 and start capturing packets.
 
 8. After that, we can ping Tux**Y**4 from Tux**Y**3 10 times.
     
     <code>
-    ping 172.16.40.254 -c 10
+    $ ping 172.16.40.254 -c 10
      </code>
 <br>
 
@@ -139,8 +158,8 @@ Note that, in this experience, the workbench used was workbench 4.
 
 1. Connect E0 on Tux**Y**2 to any of the switch ports. After that,configure Tux**Y**2, by performing the following commands:
     <br>
-    <code> ifconfig eth0 up
-    <br> ifconfig eth0 172.16.**Y**1.**1**/24
+    <code>$ ifconfig eth0 up
+    <br>$ ifconfig eth0 172.16.**Y**1.**1**/24
     </code> 
 
 2. Now, we can creating two bridges in the switch, using the following commands on GTKTerm.
@@ -180,16 +199,25 @@ Note that, in this experience, the workbench used was workbench 4.
 
 5. Ping Tux**Y**4 and Tux**Y**2 from Tux**Y**3.
     <br>
+    In:
+
     <code>
         $ ping 172.16.**Y**0.254 -c 10
     </code>
 
+    Out: 
+    
     In Tux**Y**4, all 10 packets have been recieved successfully!
+
     <br>
+    In:
+
     <code>
         $ ping 172.16.**Y**1.1 -c 10
     </code>
 
+    Out:
+    
     In Tux**Y**2 -> connect: Network is unreachable
 
 6. Afterwards, stop the capture.
@@ -505,27 +533,122 @@ Note that, in this experience, the workbench used was workbench 5.
 
 1. How to configure a static route in a commercial router?
 
-    Resetar as suas configurações, adicioná-lo à rede interna (à bridge correspondente) e atribuir um IP interno e um IP externo.
+    We start by reseting its settings, add it to the corresponding bridge and give it its own external and internal IP address.
 
-2. What are the paths followed by the packets in the experiments carried out and 
-why?
+2. What are the paths followed by the packets in the experiments carried out and why?
 
-    Na primeira experiência, sem a ligação do Tux52 ao Tux54, os pacotes de dados foram reencaminhados (ICMP redirect) através do router implementado até ao endereço IP de destino <br>
-    Já na segunda experiência não houve qualquer reencaminhamento pois a ligação mais curta da rede estava disponível.
+    In the first part of the experience, where Tux**Y**2 wasn't connected to Tux**Y**4,the data packets were redirected (ICMP redirect) through the implementes router to the destiny IP address.<br>
+    In the second part of the experience, there were no redirects, since the shortest connection in the network was available.
 img1
 img2
 img3
 img4
 
 3. How to configure NAT in a commercial router?
-    Com o comando `/ip firewall nat enable 0` no terminal do router
+    Using the GTK Terminal command <code>/ip firewall nat enable 0</code> in the router's terminal.
 
 4. What does NAT do?
-    O NAT (Network Address Translation) traduz endereços da rede local para um único endereço público, e viceversa. Assim, quando um pacote é enviado para uma rede externa, é enviado com o endereço publico como origem. Quando o computador de destino responde, envia a resposta para esse endereço público, que é depois traduzido de volta para o endereço local de destino que enviou o pacote em primeiro lugar. Deste modo, é possivel reduzir o numero de endereços publicos utilizados.
-#### Step by Step
+    NAT (Network Address Translation) translates addresses from the local network to a single public address and vice-versa. Because of this, when a packet is sent to an external network, the package is sent with the public address as the source. When the destiny machine sends back a response, it sends that response to the public address, which is than re-translated again to the local address that sent the packet in the first place. This is useful, since we can reduce the number of public addresses used on a network.
+
 ### Experience 5 - DNS
 
+#### Step by Step
+
+Note that, in this experience, the workbench used was workbench 4 and in room I320.
+
+1. Configure DNS in all machines.
+    - In Tux**Y**2:
+        
+        <code>
+        $ nano /etc/resolv.conf
+        </code>
+        and add the line
+        <code>nameserver 172.16.2.1</code> 
+    
+    - Tux**Y**3:
+
+        <code>
+        $ nano /etc/resolv.conf
+        </code>
+        and add the line
+        <code>nameserver 172.16.2.1</code> 
+
+    - Tux**Y**4:
+
+        <code>
+        $ nano /etc/resolv.conf
+        </code>
+        and add the line
+        <code>nameserver 172.16.2.1</code> 
+
+2. In all 3 machines, ping website names to check if they can be used as host.
+
+    In:
+
+    <code>$ ping google.com -c 10</code>
+
+    Out:
+    
+    All 10 packets correctly transmitted and recieved from every machine.
+
+#### Questions
+
+1. How to configure the DNS service at a host?
+
+    DNS is configured by adding the line "nameserver **IP**"to the end of the file /etc/resolv.conf of all connected machines.
+
+2. What packets are exchanged by DNS and what information is transported?
+    The first few packets transported are DNS packets, so that the router can identify and translate the destiny IP address.
+
 ### Experience 6 - TCP Connections
+
+#### Step By Step
+
+Note that, in this experience, the workbench used was workbench 4.
+
+1. Compile the download application in Tux**Y**3.
+
+2. In Tux**Y**3, start a Wireshark capture and execute the application.
+
+3. Check if the file has correctly arrived and stop de Wireshark capture.
+
+4. Check the Wireshark log and analyze the data packets exchanged.
+
+5. Start the Wireshark capture again and restart the download in Tux**Y**3. After it started, switch to Tux**Y**2 and start a download there too.
+
+6. Stop the capture and analyse the logs.
+
+#### Questions
+
+1. How many TCP connections are opened by your FTP application?
+    
+    The application has 2 TCP connections, one to send commands and another to recieve the file.
+
+2. In what connection is transported the FTP control information?
+    
+    The control informamtion is transported through the connection that has been setup to send commands to the server and fetch its responses.
+
+3. What are the phases of a TCP connection?
+    
+    A TCP connection is divided in 3 main phases:
+
+    - Connection Establishment (Three-Way Handshake), where the client sends a TCP segment to the server with the **SYN** flag. That is followed by a response from the server, which is a TCP segment that carries **both** the **SYN** and the **ACK** flags. To end this three-way handshake, the client sends a last TCP segment with the **ACK** flag, which acknowledges the receipt of the previous server response.
+        
+    - Data Transfer, where the data is encapsulated into TCP segments and is exchanged between the server and the client.
+
+    - Connection Termination (Four-Way Handshake), where the client starts by sending a TCP segment with the **FIN** flag to the server, who responds with a segment carrying the **ACK** flag and another one that carries another **FIN** flag. Than, the client answers back with the last TCP segment, that carries a **ACK** flag.
+
+4. How does the ARQ TCP mechanism work? What are the relevant TCP fields? What relevant information can be observed in the logs?
+
+    Automatic Repeat Request (ARQ) is used to retransmit information on a congested network, which is a network where packets have been lost. In order to lose packets, many have to be sent at the same time (Additive Increase). We can use Slow Start when, instead of adding a one to CongestionWindow in each transmission, we double the CongestionWindow in each retransmission. Packet loss can either occur by timeout (there's a Multiplicative Decrease, making Congestion Window 1 and increasing it back until its half the value that's gotten via slow start. After that, Additive Increase starts being incremented by 1) or due to 3 consecutive ACKs (there's a Multiplicative Decrease, reducing Congestion Window to half and the Additive Increase starts being incremented by 1).
+
+5. How does the TCP congestion control mechanism work? What are the relevant fields. How did the throughput of the data connection evolve along the time? Is it according to the TCP congestion control mechanism?
+
+    Each sender determines the channel capacity in order to send one or less packets. Because of that, there's another new parameter in the connection - CongestionWindow. If the network's congestion level increases, the CongestionWindow decreases and vice-versa.
+
+6. Is the throughput of a TCP data connections disturbed by the appearance of a second TCP connection? How?
+
+    Yes - by creating more than once TCP connectio, the bandwith will be divided by all the connections, slowing each one of them down. 
 
 ## Conclusions
 

@@ -16,7 +16,6 @@
 #define PASSIVE_MODE            227
 #define TRANSFER_READY          150
 #define TRANSFER_FINISHED       226
-#define SV_GOODBYE              221
 
 int connector(char *host, char *port);
 

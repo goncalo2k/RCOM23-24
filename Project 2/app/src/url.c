@@ -1,15 +1,5 @@
 #include "url.h"
 
-#define AT "@"
-#define BAR "/"
-#define HOST_REGEX "%*[^/]//%[^/]"
-#define HOST_AT_REGEX "%*[^/]//%*[^@]@%[^/]"
-#define RESOURCE_REGEX "%*[^/]//%*[^/]/%s"
-#define USER_REGEX "%*[^/]//%[^:/]"
-#define PASS_REGEX "%*[^/]//%*[^:]:%[^@\n$]"
-#define RESPCODE_REGEX "%d"
-#define PASSIVE_REGEX "%*[^(](%d,%d,%d,%d,%d,%d)%*[^\n$)]"
-
 int url_parser(const char *input, char *username, char *password, char *host,
                char *port, char *path)
 {
