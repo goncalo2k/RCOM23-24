@@ -12,8 +12,36 @@ Sophie Large (up202303141)
 
 
 ## Table of Contents
-1. [**Project's idea description**](#1---introduction)
-2. [**Related apps / services / systems**](#2---related-apps--services--systems)
+Certainly! Here's an index based on the headings in the provided document:
+
+1. [Introduction](#introduction)
+3. [Part 1 - Development of the Download Application (app.c and app.h)](#part-1---develoment-of-the-download-application-appc-and-apph)
+    1. [Architecture of the Application](#architecture-of-the-application)
+4. [Part 2 - Experiences](#part-2---experiences)
+    1. [Experience 1 - Configure an IP Network](#experience-1---configure-an-ip-network)
+        - [Step By Step](#step-by-step)
+        - [Questions](#questions)
+    2. [Experience 2 - Implement two bridges in a switch](#experience-2---implement-two-bridges-in-a-switch)
+        - [Step By Step](#step-by-step)
+        - [Questions](#questions)
+    3. [Experience 3 - Configure a router in Linux](#experience-3---configure-a-router-in-linux)
+        - [Step By Step](#step-by-step)
+        - [Questions](#questions)
+    4. [Experience 4 - Configure a Commercial Router and Implement NAT](#experience-4---configure-a-commercial-router-and-implement-nat)
+        - [Step By Step](#step-by-step)
+        - [Questions](#questions)
+    5. [Experience 5 - DNS](#experience-5---dns)
+        - [Step By Step](#step-by-step)
+        - [Questions](#questions)
+    6. [Experience 6 - TCP Connections](#experience-6---tcp-connections)
+        - [Step By Step](#step-by-step)
+        - [Questions](#questions)
+5. [Conclusions](#conclusions)
+6. [Annexes](#annexes)
+    - [1. Code](#1-code)
+    - [2. Wireshark Captures](#2-wireshark-captures)
+
+Feel free to let me know if you need anything else or if you want further customization!
 
 
 ## Introduction
