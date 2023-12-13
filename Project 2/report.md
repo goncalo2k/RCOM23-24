@@ -18,9 +18,43 @@ Sophie Large (up202303141)
 
 ## Introduction
 
-bloat bloat boat
+The goal of this project was to set up a small network and prove that it is correctly setup using a download application, which was also developed for this project.
 
 ## Part 1 - Develoment of the Download Application (app.c and app.h)
+
+This part of the project consists in the development of a small app that downloads files using the FTP protocol. The app works when provided with an URL such as ```ftp://[<username>[:<password>]@]<host>[:<port>]/<path```.
+
+Example: ```ftp://ftp.up.pt/pub/hello.txt```
+
+During the development of the app part of the project, we had the chance to understand Unix utilities to handle URLs and to communicate with sockets, the FTP protocol and the concept of DNS.
+
+### Architecture of the Application
+
+1. Parsing the URL string given as the argument to the program to extract its fragments, such as the username, password, host, port, and path.
+
+2. Connecting to the host on the specified port (being 21 t he default port, the standard FTP control port).
+
+3. Entering passive mode and recieving the host and port of the data connection.
+
+4. Connecting to the data connection host and port.
+
+5. Notifying the server that it should start transfering the desired file.
+
+6. Reading the incoming data from the server and writing it locally to the download.<extention> file, being the extention the last part of the path (last string after the last "/").
+
+7. Closing the connections and terminating the app.
+
+TCP sockets mediate the network communication.
+By making use of the URL parser we designed, via a state machine and regular expressions, and getaddrinfo(), the FTP server’s IP and con-
+trol port are obtained (in case there's no port specified, 21 is the value assumed). A TCP connection is established and the pro-
+gram starts sending commands through the control
+connection, which will be responded by the server. Those responses carry response codes, that are properly extracted and checked to understand if the program is working as intended. If any of the response codes sent by the server doesn't match the expected code, the program is terminated with exit code -1.
+In case there's no username specified by the user, "anonymous" is assumed as the username, since it's the default value we decided to provied.
+After that, passive mode is entered and, if its successfully entered,
+the server responds with code 227 and the host's IP and port.
+After establishing a data connection , the retr command is sent and, after that, the buffers of data from the data connection begin getting read into a file named "download.```<extention>```", where the extention is the last string after the last "/" in the file path provided by the user.
+Finally, the connection is closed and the program terminates.
+
 ## Part 2 - Experiences
 
 ### Experience 1 - Configure an IP Network
@@ -656,6 +690,14 @@ Note that, in this experience, the workbench used was workbench 4.
 
 ## Conclusions
 
-bloat bloat bloat
+By correctly implementing all the steps of the project, from the app to the experiences,
+we had the chance to better understand how the TCP protocol works, how the configuration of a complex network is done and how do the many kind packets behave and what information they carry.
 
 ## Annexes
+
+### 1. Code
+- ##### Available in folder app.
+### 2. Wireshark Captures
+- ##### Logs and prints availables in resource folder.
+### 2. Wireshark Captures
+- ##### Logs and prints availables in resource folder.
