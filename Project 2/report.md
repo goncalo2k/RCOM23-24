@@ -188,11 +188,11 @@ Note that, in this experience, the workbench used was workbench 4.
     - Adding the current ports:
         
         <code>
-        /interface bridge port add bridge=bridge50 interface=ether1
+        /interface bridge port add bridge=bridge**Y**0 interface=ether1
         <br>
-        /interface bridge port add bridge=bridge50 interface=ether2 
+        /interface bridge port add bridge=bridge**Y**0 interface=ether2 
         <br>
-        /interface bridge port add bridge=bridge51 interface=ether3
+        /interface bridge port add bridge=bridge**Y**1 interface=ether3
         </code>
         <br>
 4. Now, we should switch to Tux**Y**3 and start monitoring the packets.
@@ -235,6 +235,10 @@ Note that, in this experience, the workbench used was workbench 4.
 10. Restart the previous captures.
 
 11. From Tux**Y**2, ping 172.16.**Y**1.255.
+
+12. Enable ICMP
+
+13. IP forwarding
 
 #### Questions
 
